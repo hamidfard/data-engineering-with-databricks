@@ -12,7 +12,7 @@
 # MAGIC
 # MAGIC # Query Optimization
 # MAGIC
-# MAGIC We'll explore query plans and optimizations for several examples including logical optimizations and exanples with and without predicate pushdown.
+# MAGIC We'll explore query plans and optimizations for several examples including logical optimizations and examples with and without predicate pushdown.
 # MAGIC
 # MAGIC ##### Objectives
 # MAGIC 1. Logical optimizations
