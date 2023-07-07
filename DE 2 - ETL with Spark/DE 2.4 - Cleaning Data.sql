@@ -71,6 +71,8 @@ FROM users_dirty
 -- DBTITLE 0,--i18n-c414c24e-3b72-474b-810d-c3df32032c26
 -- MAGIC %md
 -- MAGIC
+-- MAGIC ## <--- HMF --->
+-- MAGIC
 -- MAGIC ## Inspect Missing Data
 -- MAGIC
 -- MAGIC Based on the counts above, it looks like there are at least a handful of null values in all of our fields.
@@ -150,7 +152,7 @@ SELECT count(*) FROM deduped_users
 -- MAGIC     .agg(max("email").alias("email"), 
 -- MAGIC          max("updated").alias("updated"))
 -- MAGIC     )
--- MAGIC
+-- MAGIC  
 -- MAGIC dedupedDF.count()
 
 -- COMMAND ----------
@@ -198,10 +200,10 @@ SELECT max(row_count) <= 1 no_duplicate_ids FROM (
 -- MAGIC %python
 -- MAGIC from pyspark.sql.functions import count
 -- MAGIC
--- MAGIC display(dedupedDF
+-- MAGIC (dedupedDF
 -- MAGIC     .groupBy("user_id")
 -- MAGIC     .agg(count("*").alias("row_count"))
--- MAGIC     .select((max("row_count") <= 1).alias("no_duplicate_ids")))
+-- MAGIC     .select((max("row_count") <= 1).alias("no_duplicate_ids"))).display()
 
 -- COMMAND ----------
 
