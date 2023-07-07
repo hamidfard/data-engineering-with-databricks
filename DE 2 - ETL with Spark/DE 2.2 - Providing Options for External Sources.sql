@@ -171,8 +171,9 @@ DESCRIBE EXTENDED sales_csv
 -- DBTITLE 0,--i18n-fdbb45bc-72b3-4610-97a6-accd30ec8fec
 -- MAGIC %md
 -- MAGIC
--- MAGIC
+-- MAGIC ## <--- HMF ---> 
 -- MAGIC ## Limits of Tables with External Data Sources
+-- MAGIC
 -- MAGIC
 -- MAGIC If you've taken other courses on Databricks or reviewed any of our company literature, you may have heard about Delta Lake and the Lakehouse. Note that whenever we're defining tables or queries against external data sources, we **cannot** expect the performance guarantees associated with Delta Lake and Lakehouse.
 -- MAGIC
@@ -207,7 +208,7 @@ SELECT COUNT(*) FROM sales_csv
 
 -- DBTITLE 0,--i18n-bede6aed-2b6b-4ee7-8017-dfce2217e8b4
 -- MAGIC %md
--- MAGIC
+-- MAGIC ## <--- HMF ---> 
 -- MAGIC
 -- MAGIC At the time we previously queried this data source, Spark automatically cached the underlying data in local storage. This ensures that on subsequent queries, Spark will provide the optimal performance by just querying this local cache.
 -- MAGIC
@@ -238,6 +239,7 @@ SELECT COUNT(*) FROM sales_csv
 -- DBTITLE 0,--i18n-ee1ac9ff-add1-4247-bc44-2e71f0447390
 -- MAGIC %md
 -- MAGIC
+-- MAGIC ## <--- HMF ---> 
 -- MAGIC
 -- MAGIC ## Extracting Data from SQL Databases
 -- MAGIC SQL databases are an extremely common data source, and Databricks has a standard JDBC driver for connecting with many flavors of SQL.
@@ -321,6 +323,7 @@ DESCRIBE EXTENDED users_jdbc
 
 -- DBTITLE 0,--i18n-1cb11f07-755c-4fb2-a122-1eb340033712
 -- MAGIC %md
+-- MAGIC ## <--- HMF ---> 
 -- MAGIC
 -- MAGIC
 -- MAGIC Note that some SQL systems such as data warehouses will have custom drivers. Spark will interact with various external databases differently, but the two basic approaches can be summarized as either:
