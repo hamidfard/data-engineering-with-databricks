@@ -54,6 +54,10 @@
 
 -- COMMAND ----------
 
+SELECT DISTINCT(event_name) FROM events
+
+-- COMMAND ----------
+
 -- DBTITLE 0,--i18n-2799ea4f-4a8e-4ad4-8dc1-a8c1f807c6d7
 -- MAGIC %md
 -- MAGIC
@@ -102,11 +106,16 @@
 -- COMMAND ----------
 
 -- TODO
-CREATE OR REPLACE TEMP VIEW events_pivot
-<FILL_IN>
+CREATE OR REPLACE TEMP VIEW events_pivot AS
+SELECT * FROM (
+  SELECT user_id user, event_name 
+  FROM events
+) PIVOT ( count(*) FOR event_name IN
 ("cart", "pillows", "login", "main", "careers", "guest", "faq", "down", "warranty", "finalize", 
 "register", "shipping_info", "checkout", "mattresses", "add_item", "press", "email_coupon", 
-"cc_info", "foam", "reviews", "original", "delivery", "premium")
+"cc_info", "foam", "reviews", "original", "delivery", "premium"));
+
+SELECT * FROM events_pivot
 
 -- COMMAND ----------
 
@@ -119,9 +128,15 @@ CREATE OR REPLACE TEMP VIEW events_pivot
 
 -- MAGIC %python
 -- MAGIC # TODO
--- MAGIC (spark.read
--- MAGIC     <FILL_IN>
--- MAGIC     .createOrReplaceTempView("events_pivot"))
+-- MAGIC (spark
+-- MAGIC  .read
+-- MAGIC  .table("events")
+-- MAGIC  .groupBy("user_id")
+-- MAGIC  .pivot("event_name")
+-- MAGIC  .count()
+-- MAGIC  .withColumnRenamed("user_id", "user")
+-- MAGIC  .createOrReplaceTempView("events_pivot")
+-- MAGIC )
 
 -- COMMAND ----------
 
@@ -182,11 +197,14 @@ CREATE OR REPLACE TEMP VIEW events_pivot
 
 -- TODO
 CREATE OR REPLACE TEMP VIEW clickpaths AS
-<FILL_IN>
+SELECT *
+FROM events_pivot 
+JOIN transactions 
+ON events_pivot.user = transactions.user_id
 
 -- COMMAND ----------
 
--- DBTITLE 0,--i18n-e0ad84c7-93f0-4448-9846-4b56ba71acf8
+-- DBTITLE 1,--i18n-e0ad84c7-93f0-4448-9846-4b56ba71acf8
 -- MAGIC %md
 -- MAGIC
 -- MAGIC ### Solve with Python
@@ -195,9 +213,14 @@ CREATE OR REPLACE TEMP VIEW clickpaths AS
 
 -- MAGIC %python
 -- MAGIC # TODO
--- MAGIC (spark.read
--- MAGIC     <FILL_IN>
--- MAGIC     .createOrReplaceTempView("clickpaths"))
+-- MAGIC from pyspark.sql.functions import col
+-- MAGIC
+-- MAGIC (spark
+-- MAGIC  .read
+-- MAGIC  .table("events_pivot")
+-- MAGIC  .join(spark.table("transactions"), col("events_pivot.user") == col("transactions.user_id"), "inner")
+-- MAGIC  .createOrReplaceTempView("clickpaths")
+-- MAGIC  )
 
 -- COMMAND ----------
 
